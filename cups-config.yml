@@ -1,0 +1,8 @@
+---
+# Ansible role for managing CUPS
+
+- name: Manage CUPS config
+  hosts: all
+  roles:
+
+  - role: cups-config

@@ -1,0 +1,24 @@
+---
+# (1) Install CUPS package
+# (2) Deploy configuration file
+# (3) Start CUPS service
+
+- name: Install packages
+  ansible.builtin.package:
+    name: cups
+    state: present
+
+- name: Configure CUPS
+  ansible.builtin.template:
+    src: cupsd.conf.j2
+    dest: /etc/cups/cupsd.conf
+    mode: "0640"
+    validate: cupsd -t -c %s
+  notify:
+    - restart cups
+
+- name: Start and enable service
+  ansible.builtin.service:
+    name: "{{ cups_service }}"
+    state: started
+    enabled: yes
